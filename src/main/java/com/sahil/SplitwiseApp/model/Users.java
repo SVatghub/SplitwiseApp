@@ -1,6 +1,7 @@
 package com.sahil.SplitwiseApp.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.springframework.context.annotation.Scope;
 
@@ -10,6 +11,8 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "Users")
 public class Users {
+
+    @Id
     private int userId;
     private String name;
     private String email;
