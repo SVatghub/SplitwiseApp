@@ -1,8 +1,6 @@
 package com.sahil.SplitwiseApp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.context.annotation.Scope;
 
 import java.sql.Timestamp;
@@ -13,7 +11,9 @@ import java.sql.Timestamp;
 public class Users {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
+
     private String name;
     private String email;
     private Timestamp createdAt;
