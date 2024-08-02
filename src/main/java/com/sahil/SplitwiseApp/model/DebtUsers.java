@@ -1,26 +1,38 @@
 package com.sahil.SplitwiseApp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
-@Table(name = "DebtUsers")
+@Table(name = "debt_users")
 public class DebtUsers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "user_id",nullable = false)
     private int userId;
+
+    @Column(name = "debt_amount",nullable = false)
     private BigDecimal debtAmount;
+
+    @Column(name = "is_settled",nullable = false)
     private boolean isSettled;
+
+    @Column(name = "created_at",nullable = false,updatable = false)
     private Timestamp createdAt;
+
+    @Column(name = "updated_at",nullable = false)
     private Timestamp updatedAt;
 
     @ManyToOne
-    @JoinColumn(name ="expenseId",referencedColumnName = "id")
+    @JoinColumn(name ="expense_id",referencedColumnName = "id")
+    @JsonBackReference
     private Expenses expense;
 
     public DebtUsers() {
@@ -33,6 +45,18 @@ public class DebtUsers {
         this.debtAmount = debtAmount;
         this.userId = userId;
         this.createdAt = createdAt;
+    }
+
+    @PrePersist
+    public void onCreate(){
+        Timestamp now = Timestamp.from(Instant.now());
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    public void onUpdate(){
+        this.updatedAt = Timestamp.from(Instant.now());
     }
 
     public int getUserId() {
@@ -81,5 +105,13 @@ public class DebtUsers {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Expenses getExpense() {
+        return expense;
+    }
+
+    public void setExpense(Expenses expense) {
+        this.expense = expense;
     }
 }

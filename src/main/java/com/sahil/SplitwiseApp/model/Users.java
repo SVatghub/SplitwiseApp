@@ -4,19 +4,28 @@ import jakarta.persistence.*;
 import org.springframework.context.annotation.Scope;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Scope("prototype")
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private int userId;
 
+    @Column(name = "name",nullable = false)
     private String name;
+
+    @Column(name = "email",nullable = false)
     private String email;
+
+    @Column(name = "created_at",nullable = false,updatable = false)
     private Timestamp createdAt;
+
+    @Column(name = "updated_at",nullable = false)
     private Timestamp updatedAt;
 
     public Users() {
@@ -28,6 +37,18 @@ public class Users {
         this.email = email;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
+    }
+
+    @PrePersist
+    public void onCreate(){
+        Timestamp now = Timestamp.from(Instant.now());
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    public void onUpdate(){
+        this.updatedAt = Timestamp.from(Instant.now());
     }
 
     public Timestamp getUpdatedAt() {
