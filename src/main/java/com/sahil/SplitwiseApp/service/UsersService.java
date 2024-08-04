@@ -10,15 +10,12 @@ public class UsersService {
 
     @Autowired
     private UsersRepo repo;
-
-    // adding a user to the users table
-    public void addUser(Users user){
-        repo.save(user);
+    
+    public Users addUser(Users user){
+        return repo.save(user);
     }
 
-    // Get user with user id
     public Users getUserById(int userId){
-        System.out.println("in user service");
         return repo.findById(userId).orElse(null);
     }
 }
