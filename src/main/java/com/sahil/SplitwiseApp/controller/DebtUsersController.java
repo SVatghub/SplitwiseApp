@@ -1,15 +1,15 @@
 package com.sahil.SplitwiseApp.controller;
 
 import com.sahil.SplitwiseApp.DTO.DebtUsersDTO;
+import com.sahil.SplitwiseApp.constants.ApiConstants;
 import com.sahil.SplitwiseApp.model.DebtUsers;
 import com.sahil.SplitwiseApp.service.DebtUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("SplitwiseApp")
+@RequestMapping(ApiConstants.BASE_URL)
 public class DebtUsersController {
 
     @Autowired
@@ -31,13 +31,12 @@ public class DebtUsersController {
     }
 
     @DeleteMapping("users/{userId}/debt/{expenseId}")
-    public void deleteDebtUserByExpenseIdAndUserId(@PathVariable int userId,@PathVariable int expenseId){
+    public void deleteDebtUserByExpenseIdAndUserId(@PathVariable int expenseId,@PathVariable int userId){
         service.deleteDebtUserByExpenseIdAndUserId(expenseId,userId);
     }
 
-    // updating debt users for isSettled and amount
     @PutMapping("users/{userId}/debt/{expenseId}")
-    public void getUserByExpenseIdAndUserId(@PathVariable int userId,@PathVariable int expenseId,@RequestBody DebtUsers debtUser){
+    public void updateDebtUserByExpenseIdAndUserId(@PathVariable int userId, @PathVariable int expenseId, @RequestBody DebtUsers debtUser){
         service.updateDebtUserByExpenseIdAndUserId(expenseId,userId,debtUser.isSettled(),debtUser.getDebtAmount());
     }
 }
