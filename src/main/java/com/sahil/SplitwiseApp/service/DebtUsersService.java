@@ -60,4 +60,8 @@ public class DebtUsersService {
             repo.save(existingDebtUser);
         }
     }
+
+    public void updateDebtUser(DebtUsers debtUser){
+        repo.save(debtUser);
+    }
 }

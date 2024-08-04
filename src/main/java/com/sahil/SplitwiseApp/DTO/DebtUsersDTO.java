@@ -1,6 +1,5 @@
 package com.sahil.SplitwiseApp.DTO;
 
-import com.sahil.SplitwiseApp.model.DebtUsers;
 import lombok.Getter;
 import lombok.Setter;
 import java.math.BigDecimal;
