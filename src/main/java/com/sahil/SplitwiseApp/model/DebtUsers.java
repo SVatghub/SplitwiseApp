@@ -2,11 +2,18 @@ package com.sahil.SplitwiseApp.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "debt_users")
 public class DebtUsers {
@@ -35,18 +42,6 @@ public class DebtUsers {
     @JsonBackReference
     private Expenses expense;
 
-    public DebtUsers() {
-    }
-
-    public DebtUsers(int id, Timestamp updatedAt, boolean isSettled, BigDecimal debtAmount, int userId, Timestamp createdAt) {
-        this.id = id;
-        this.updatedAt = updatedAt;
-        this.isSettled = isSettled;
-        this.debtAmount = debtAmount;
-        this.userId = userId;
-        this.createdAt = createdAt;
-    }
-
     @PrePersist
     public void onCreate(){
         Timestamp now = Timestamp.from(Instant.now());
@@ -57,61 +52,5 @@ public class DebtUsers {
     @PreUpdate
     public void onUpdate(){
         this.updatedAt = Timestamp.from(Instant.now());
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public BigDecimal getDebtAmount() {
-        return debtAmount;
-    }
-
-    public void setDebtAmount(BigDecimal debtAmount) {
-        this.debtAmount = debtAmount;
-    }
-
-    public boolean isSettled() {
-        return isSettled;
-    }
-
-    public void setSettled(boolean settled) {
-        isSettled = settled;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Expenses getExpense() {
-        return expense;
-    }
-
-    public void setExpense(Expenses expense) {
-        this.expense = expense;
     }
 }

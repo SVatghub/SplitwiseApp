@@ -1,14 +1,21 @@
 package com.sahil.SplitwiseApp.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.context.annotation.Scope;
-
 import java.sql.Timestamp;
 import java.time.Instant;
 
+@Setter
+@Getter
 @Scope("prototype")
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users {
 
     @Id
@@ -28,17 +35,6 @@ public class Users {
     @Column(name = "updated_at",nullable = false)
     private Timestamp updatedAt;
 
-    public Users() {
-    }
-
-    public Users(int userId, String name, String email, Timestamp updatedAt, Timestamp createdAt) {
-        this.userId = userId;
-        this.name = name;
-        this.email = email;
-        this.updatedAt = updatedAt;
-        this.createdAt = createdAt;
-    }
-
     @PrePersist
     public void onCreate(){
         Timestamp now = Timestamp.from(Instant.now());
@@ -51,43 +47,4 @@ public class Users {
         this.updatedAt = Timestamp.from(Instant.now());
     }
 
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 }

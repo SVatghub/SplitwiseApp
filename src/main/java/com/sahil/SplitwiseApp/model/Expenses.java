@@ -2,12 +2,20 @@ package com.sahil.SplitwiseApp.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "expenses")
 public class Expenses {
@@ -35,26 +43,6 @@ public class Expenses {
     @JsonManagedReference
     private List<DebtUsers> debtUsersList;
 
-    public List<DebtUsers> getDebtUsersList() {
-        return debtUsersList;
-    }
-
-    public void setDebtUsersList(List<DebtUsers> debtUsersList) {
-        this.debtUsersList = debtUsersList;
-    }
-
-    public Expenses() {
-    }
-
-    public Expenses(int id, int userId, String title, BigDecimal amount, Timestamp createdAt, Timestamp updatedAt) {
-        this.id = id;
-        this.userId = userId;
-        this.title = title;
-        this.amount = amount;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     @PrePersist
     public void onCreate(){
         Timestamp now = Timestamp.from(Instant.now());
@@ -65,53 +53,5 @@ public class Expenses {
     @PreUpdate
     public void onUpdate(){
         this.updatedAt = Timestamp.from(Instant.now());
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }
