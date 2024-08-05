@@ -20,7 +20,7 @@ public class ExpensesController {
     private DebtUsersController debtUsersController;
 
     @PostMapping
-    public Expenses addExpense(@PathVariable("userId") int userId,@RequestBody Expenses expense){
+    public Expenses addExpense(@PathVariable("user-Id") int userId,@RequestBody Expenses expense){
         expense.setUserId(userId);
         Expenses addedExpense = service.addExpense(expense);
 
@@ -32,25 +32,25 @@ public class ExpensesController {
         return expense;
     }
 
-    @PutMapping("/{expenseId}")
-    public Expenses updateExpenseById(@PathVariable int expenseId, @PathVariable int userId, @RequestBody Expenses expense) {
+    @PutMapping("/{expense-Id}")
+    public Expenses updateExpenseById(@PathVariable("expense-Id") int expenseId, @PathVariable("user-Id") int userId, @RequestBody Expenses expense) {
         expense.setId(expenseId);
         expense.setUserId(userId);
         return service.updateExpense(expense);
     }
 
-    @GetMapping("/{expenseId}")
-    public Optional<Expenses> getExpenseByExpenseId(@PathVariable("expenseId") int expenseId){
+    @GetMapping("/{expense-Id}")
+    public Optional<Expenses> getExpenseByExpenseId(@PathVariable("expense-Id") int expenseId){
         return service.getExpenseByExpenseId(expenseId);
     }
 
     @GetMapping
-    public List<Optional<Expenses>> getExpenseByUserId(@PathVariable("userId") int userId){
+    public List<Optional<Expenses>> getExpenseByUserId(@PathVariable("user-Id") int userId){
         return service.getExpenseByUserId(userId);
     }
 
-    @DeleteMapping("/{expenseId}")
-    public void deleteExpenseByExpenseId(@PathVariable int expenseId){
+    @DeleteMapping("/{expense-Id}")
+    public void deleteExpenseByExpenseId(@PathVariable("expense-Id") int expenseId){
         service.deleteExpenseById(expenseId);
     }
 }

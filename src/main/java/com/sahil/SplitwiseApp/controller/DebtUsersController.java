@@ -15,28 +15,28 @@ public class DebtUsersController {
     @Autowired
     private DebtUsersService service;
 
-    @PostMapping("/users/debt/{userId}")
+    @PostMapping("/users/debt/{user-Id}")
     public void addDebtUser(DebtUsers debtUser){
         service.addDebtUser(debtUser);
     }
 
-    @GetMapping("users/debt/{userId}")
-    public List<DebtUsersDTO> getDebtUsersByUserId(@PathVariable int userId){
+    @GetMapping("/users/debt/{user-Id}")
+    public List<DebtUsersDTO> getDebtUsersByUserId(@PathVariable("user-Id") int userId){
         return service.getDebtUsersByUserId(userId);
     }
 
-    @GetMapping("debt-users/{expenseId}")
-    public List<DebtUsersDTO> getDebtUsersByExpenseId(@PathVariable int expenseId){
+    @GetMapping("/debt-users/{expense-Id}")
+    public List<DebtUsersDTO> getDebtUsersByExpenseId(@PathVariable("expense-Id") int expenseId){
         return service.getDebtUsersByExpenseId(expenseId);
     }
 
-    @DeleteMapping("users/{userId}/debt/{expenseId}")
-    public void deleteDebtUserByExpenseIdAndUserId(@PathVariable int expenseId,@PathVariable int userId){
+    @DeleteMapping("/users/{user-Id}/debt/{expense-Id}")
+    public void deleteDebtUserByExpenseIdAndUserId(@PathVariable("expense-Id") int expenseId,@PathVariable("user-Id") int userId){
         service.deleteDebtUserByExpenseIdAndUserId(expenseId,userId);
     }
 
-    @PutMapping("users/{userId}/debt/{expenseId}")
-    public void updateDebtUserByExpenseIdAndUserId(@PathVariable int userId, @PathVariable int expenseId, @RequestBody DebtUsers debtUser){
+    @PutMapping("/users/{user-Id}/debt/{expense-Id}")
+    public void updateDebtUserByExpenseIdAndUserId(@PathVariable("user-Id") int userId, @PathVariable("expense-Id") int expenseId, @RequestBody DebtUsers debtUser){
         service.updateDebtUserByExpenseIdAndUserId(expenseId,userId,debtUser.isSettled(),debtUser.getDebtAmount());
     }
 }

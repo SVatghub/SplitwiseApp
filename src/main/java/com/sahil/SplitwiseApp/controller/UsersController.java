@@ -18,8 +18,8 @@ public class UsersController {
         return service.addUser(user);
     }
 
-    @GetMapping("/{userId}")
-    public Users getUserById(@PathVariable int userId){
+    @GetMapping("/{user-Id}")
+    public Users getUserById(@PathVariable("user-Id") int userId){
         return service.getUserById(userId);
     }
 }
