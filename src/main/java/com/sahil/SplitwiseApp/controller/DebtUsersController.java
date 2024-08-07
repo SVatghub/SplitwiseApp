@@ -21,8 +21,8 @@ public class DebtUsersController {
     }
 
     @GetMapping("/users/debt/{user-Id}")
-    public List<DebtUsersDTO> getDebtUsersByUserId(@PathVariable("user-Id") int userId){
-        return service.getDebtUsersByUserId(userId);
+    public List<DebtUsersDTO> getDebtsByUserId(@PathVariable("user-Id") int userId){
+        return service.getDebtsByUserId(userId);
     }
 
     @GetMapping("/debt-users/{expense-Id}")

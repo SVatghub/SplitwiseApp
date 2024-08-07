@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface DebtUsersRepo extends JpaRepository<DebtUsers,Integer> {
     List<DebtUsers> getDebtUsersByExpenseId(int expenseId);
-    List<DebtUsers> getDebtUsersByUserId(int userId);
+    List<DebtUsers> getDebtsByUserId(int userId);
     Optional<DebtUsers> getDebtUserByExpenseIdAndUserId(int expenseId,int userId);
 }

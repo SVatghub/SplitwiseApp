@@ -37,8 +37,8 @@ public class DebtUsersService {
         return debtUsersList.stream().map(this::convertToDebtUsersDTO).collect(Collectors.toList());
     }
 
-    public List<DebtUsersDTO> getDebtUsersByUserId(int userId){
-        List<DebtUsers> debtUsersList = repo.getDebtUsersByUserId(userId);
+    public List<DebtUsersDTO> getDebtsByUserId(int userId){
+        List<DebtUsers> debtUsersList = repo.getDebtsByUserId(userId);
         return debtUsersList.stream().map(this::convertToDebtUsersDTO).collect(Collectors.toList());
     }
 
