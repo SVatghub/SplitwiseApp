@@ -5,6 +5,7 @@ import com.sahil.SplitwiseApp.model.Users;
 import com.sahil.SplitwiseApp.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiConstants.BASE_URL + "/users")
@@ -21,5 +22,15 @@ public class UsersController {
     @GetMapping("/{user-Id}")
     public Users getUserById(@PathVariable("user-Id") int userId){
         return service.getUserById(userId);
+    }
+
+    @GetMapping("/{name}/{email}")
+    public Integer getUserByNameAndEmail(@PathVariable String name,@PathVariable String email){
+        return service.getUserIdByNameAndEmail(name,email);
+    }
+
+    @GetMapping
+    public List<Users> getAllUsers(){
+        return service.getAllUsers();
     }
 }
