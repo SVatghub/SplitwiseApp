@@ -47,16 +47,21 @@ public class SettlementService {
         return settlementDTO;
     }
 
-    public void debtUserToLenderSettle(int debtUserId, int lenderId){
-        List<Optional<Expenses>> expensesByLender = expensesService.getExpenseByUserId(lenderId);
+    public void settleDebtsBetweenUsers(int debtorId, int lenderId) {
+        settleDebtsForUser(debtorId, lenderId);
+        settleDebtsForUser(lenderId, debtorId);
+    }
 
-        for (Optional<Expenses> optionalExpense : expensesByLender) {
+    private void settleDebtsForUser(int userId, int otherUserId) {
+        List<Optional<Expenses>> expensesByUser = expensesService.getExpenseByUserId(userId);
+
+        for (Optional<Expenses> optionalExpense : expensesByUser) {
             optionalExpense.ifPresent(expense -> {
                 expense.getDebtUsersList().stream()
-                        .filter(debtUser -> debtUser.getUserId() == debtUserId && !debtUser.isSettled())
+                        .filter(debtUser -> debtUser.getUserId() == otherUserId && !debtUser.isSettled())
                         .forEach(debtUser -> {
-                                debtUser.setSettled(true);
-                                debtUsersService.updateDebtUser(debtUser);
+                            debtUser.setSettled(true);
+                            debtUsersService.updateDebtUser(debtUser);
                         });
             });
         }
