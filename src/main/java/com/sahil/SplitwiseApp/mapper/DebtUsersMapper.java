@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 public class DebtUsersMapper {
 
     public DebtUsersDTO convertToDebtUsersDTO(DebtUsers debtUser){
-        DebtUsersDTO debtUsersDTO = new DebtUsersDTO();
-        debtUsersDTO.setId(debtUser.getId());
-        debtUsersDTO.setUserId(debtUser.getUserId());
-        debtUsersDTO.setExpenseId(debtUser.getExpense().getId());
-        debtUsersDTO.setCreatedAt(debtUser.getCreatedAt());
-        debtUsersDTO.setUpdatedAt(debtUser.getUpdatedAt());
-        debtUsersDTO.setSettled(debtUser.isSettled());
-        debtUsersDTO.setDebtAmount(debtUser.getDebtAmount());
-        return debtUsersDTO;
+        return DebtUsersDTO.builder()
+                .id(debtUser.getId())
+                .userId(debtUser.getUserId())
+                .expenseId(debtUser.getExpense().getId())
+                .createdAt(debtUser.getCreatedAt())
+                .updatedAt(debtUser.getUpdatedAt())
+                .debtAmount(debtUser.getDebtAmount())
+                .isSettled(debtUser.isSettled())
+                .build();
     }
 }
