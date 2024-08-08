@@ -1,5 +1,7 @@
 package com.sahil.SplitwiseApp.controller;
 
+import com.sahil.SplitwiseApp.DTO.UsersRequestDTO;
+import com.sahil.SplitwiseApp.DTO.UsersResponseDTO;
 import com.sahil.SplitwiseApp.constants.ApiConstants;
 import com.sahil.SplitwiseApp.model.Users;
 import com.sahil.SplitwiseApp.service.UsersService;
@@ -15,12 +17,12 @@ public class UsersController {
     private UsersService service;
 
     @PostMapping
-    public Users addUser(@RequestBody Users user){
-        return service.addUser(user);
+    public UsersResponseDTO addUser(@RequestBody UsersRequestDTO usersRequestDTO){
+        return service.addUser(usersRequestDTO);
     }
 
     @GetMapping("/{user-Id}")
-    public Users getUserById(@PathVariable("user-Id") int userId){
+    public UsersResponseDTO getUserById(@PathVariable("user-Id") int userId){
         return service.getUserById(userId);
     }
 
@@ -30,7 +32,7 @@ public class UsersController {
     }
 
     @GetMapping
-    public List<Users> getAllUsers(){
+    public List<UsersResponseDTO> getAllUsers(){
         return service.getAllUsers();
     }
 }
