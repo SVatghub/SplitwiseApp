@@ -1,5 +1,6 @@
 package com.sahil.SplitwiseApp.service;
 
+import com.sahil.SplitwiseApp.model.DebtUsers;
 import com.sahil.SplitwiseApp.model.Expenses;
 import com.sahil.SplitwiseApp.repo.ExpensesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,31 @@ public class ExpensesService {
     @Autowired
     private ExpensesRepo repo;
 
-    // add expenses and return expenses to reference it to add debtUsers
+    @Autowired
+    private DebtUsersService debtUsersService;
+
     public Expenses addExpense(Expenses expense){
         return repo.save(expense);
     }
 
+    public Expenses addExpenseAndDebtUsers(int userId,Expenses expense){
+        expense.setUserId(userId);
+        Expenses addedExpense = addExpense(expense);
+        for(DebtUsers debtUser : expense.getDebtUsersList()){
+            debtUser.setExpense(addedExpense);
+            debtUsersService.addDebtUser(debtUser);
+        }
+        return expense;
+    }
+
     public Expenses updateExpense(Expenses expenses){
         return repo.save(expenses);
+    }
+
+    public Expenses updateExpenseById(int expenseId,int userId,Expenses expense){
+        expense.setId(expenseId);
+        expense.setUserId(userId);
+        return updateExpense(expense);
     }
 
     public Optional<Expenses> getExpenseByExpenseId(int id){

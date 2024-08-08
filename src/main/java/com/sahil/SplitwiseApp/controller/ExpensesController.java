@@ -1,7 +1,6 @@
 package com.sahil.SplitwiseApp.controller;
 
 import com.sahil.SplitwiseApp.constants.ApiConstants;
-import com.sahil.SplitwiseApp.model.DebtUsers;
 import com.sahil.SplitwiseApp.model.Expenses;
 import com.sahil.SplitwiseApp.service.ExpensesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +15,14 @@ public class ExpensesController {
     @Autowired
     private ExpensesService service;
 
-    @Autowired
-    private DebtUsersController debtUsersController;
-
     @PostMapping
-    public Expenses addExpense(@PathVariable("user-Id") int userId,@RequestBody Expenses expense){
-        expense.setUserId(userId);
-        Expenses addedExpense = service.addExpense(expense);
-
-        for(DebtUsers debtUser : expense.getDebtUsersList()){
-            debtUser.setExpense(addedExpense);
-            debtUsersController.addDebtUser(debtUser);
-        }
-
-        return expense;
+    public Expenses addExpenseAndDebtUsers(@PathVariable("user-Id") int userId, @RequestBody Expenses expense){
+        return service.addExpenseAndDebtUsers(userId, expense);
     }
 
     @PutMapping("/{expense-Id}")
     public Expenses updateExpenseById(@PathVariable("expense-Id") int expenseId, @PathVariable("user-Id") int userId, @RequestBody Expenses expense) {
-        expense.setId(expenseId);
-        expense.setUserId(userId);
-        return service.updateExpense(expense);
+        return service.updateExpenseById(expenseId,userId,expense);
     }
 
     @GetMapping("/{expense-Id}")
