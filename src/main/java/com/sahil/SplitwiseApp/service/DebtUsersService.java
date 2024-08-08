@@ -1,6 +1,7 @@
 package com.sahil.SplitwiseApp.service;
 
 import com.sahil.SplitwiseApp.DTO.DebtUsersDTO;
+import com.sahil.SplitwiseApp.mapper.DebtUsersMapper;
 import com.sahil.SplitwiseApp.model.DebtUsers;
 import com.sahil.SplitwiseApp.repo.DebtUsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,11 @@ public class DebtUsersService {
     @Autowired
     private DebtUsersRepo repo;
 
-    public DebtUsersDTO convertToDebtUsersDTO(DebtUsers debtUser){
-        DebtUsersDTO debtUsersDTO = new DebtUsersDTO();
-        debtUsersDTO.setId(debtUser.getId());
-        debtUsersDTO.setUserId(debtUser.getUserId());
-        debtUsersDTO.setExpenseId(debtUser.getExpense().getId());
-        debtUsersDTO.setCreatedAt(debtUser.getCreatedAt());
-        debtUsersDTO.setUpdatedAt(debtUser.getUpdatedAt());
-        debtUsersDTO.setSettled(debtUser.isSettled());
-        debtUsersDTO.setDebtAmount(debtUser.getDebtAmount());
-        return debtUsersDTO;
+    @Autowired
+    private DebtUsersMapper mapper;
+
+    public DebtUsersDTO convertToDto(DebtUsers debtUser){
+        return mapper.convertToDebtUsersDTO(debtUser);
     }
 
     public void addDebtUser(DebtUsers debtUser){
@@ -34,12 +30,12 @@ public class DebtUsersService {
 
     public List<DebtUsersDTO> getDebtUsersByExpenseId(int expenseId){
         List<DebtUsers> debtUsersList = repo.getDebtUsersByExpenseId(expenseId);
-        return debtUsersList.stream().map(this::convertToDebtUsersDTO).collect(Collectors.toList());
+        return debtUsersList.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     public List<DebtUsersDTO> getDebtsByUserId(int userId){
         List<DebtUsers> debtUsersList = repo.getDebtsByUserId(userId);
-        return debtUsersList.stream().map(this::convertToDebtUsersDTO).collect(Collectors.toList());
+        return debtUsersList.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     public Optional<DebtUsers> getUserByExpenseIdAndUserId(int expenseId, int userId){
