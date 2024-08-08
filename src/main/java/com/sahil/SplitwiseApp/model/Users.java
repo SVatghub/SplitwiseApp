@@ -1,10 +1,7 @@
 package com.sahil.SplitwiseApp.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.context.annotation.Scope;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -16,6 +13,7 @@ import java.time.Instant;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Users {
 
     @Id
