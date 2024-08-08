@@ -25,7 +25,7 @@ public class UsersController {
     }
 
     @GetMapping("/{name}/{email}")
-    public Integer getUserByNameAndEmail(@PathVariable String name,@PathVariable String email){
+    public Integer getUserIdByNameAndEmail(@PathVariable String name, @PathVariable String email){
         return service.getUserIdByNameAndEmail(name,email);
     }
 
