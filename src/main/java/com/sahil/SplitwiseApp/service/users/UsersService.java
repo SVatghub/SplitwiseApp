@@ -1,4 +1,4 @@
-package com.sahil.SplitwiseApp.service;
+package com.sahil.SplitwiseApp.service.users;
 
 import com.sahil.SplitwiseApp.DTO.UsersRequestDTO;
 import com.sahil.SplitwiseApp.DTO.UsersResponseDTO;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UsersService {
+public class UsersService implements IUsersService{
 
     @Autowired
     private UsersRepo repo;

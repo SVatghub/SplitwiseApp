@@ -1,8 +1,9 @@
-package com.sahil.SplitwiseApp.service;
+package com.sahil.SplitwiseApp.service.expenses;
 
 import com.sahil.SplitwiseApp.model.DebtUsers;
 import com.sahil.SplitwiseApp.model.Expenses;
 import com.sahil.SplitwiseApp.repo.ExpensesRepo;
+import com.sahil.SplitwiseApp.service.debtUsers.IDebtUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -10,13 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ExpensesService {
+public class ExpensesService implements IExpensesService{
 
     @Autowired
     private ExpensesRepo repo;
 
     @Autowired
-    private DebtUsersService debtUsersService;
+    private IDebtUsersService debtUsersService;
 
     public Expenses addExpense(Expenses expense){
         return repo.save(expense);

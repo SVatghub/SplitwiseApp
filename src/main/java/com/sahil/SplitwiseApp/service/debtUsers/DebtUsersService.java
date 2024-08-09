@@ -1,4 +1,4 @@
-package com.sahil.SplitwiseApp.service;
+package com.sahil.SplitwiseApp.service.debtUsers;
 
 import com.sahil.SplitwiseApp.DTO.DebtUsersDTO;
 import com.sahil.SplitwiseApp.mapper.DebtUsersMapper;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.math.BigDecimal;
 
 @Service
-public class DebtUsersService {
+public class DebtUsersService implements IDebtUsersService{
 
     @Autowired
     private DebtUsersRepo repo;
