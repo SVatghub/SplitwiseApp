@@ -8,7 +8,6 @@ import java.time.Instant;
 
 @Setter
 @Getter
-@Scope("prototype")
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
