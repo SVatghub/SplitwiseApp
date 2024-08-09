@@ -3,7 +3,7 @@ package com.sahil.SplitwiseApp.controller;
 import com.sahil.SplitwiseApp.DTO.PaymentDTO;
 import com.sahil.SplitwiseApp.DTO.SettlementDTO;
 import com.sahil.SplitwiseApp.constants.ApiConstants;
-import com.sahil.SplitwiseApp.service.SettlementService;
+import com.sahil.SplitwiseApp.service.settlements.ISettlementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 public class SettlementController {
 
     @Autowired
-    SettlementService service;
+    private ISettlementService service;
 
     @GetMapping("/users/{debtUser-Id}/settle/{lender-Id}")
     public SettlementDTO debtUserToLenderHistory(@PathVariable("debtUser-Id") int debtUserId, @PathVariable("lender-Id") int lenderId) {

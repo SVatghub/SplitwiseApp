@@ -3,8 +3,7 @@ package com.sahil.SplitwiseApp.controller;
 import com.sahil.SplitwiseApp.DTO.UsersRequestDTO;
 import com.sahil.SplitwiseApp.DTO.UsersResponseDTO;
 import com.sahil.SplitwiseApp.constants.ApiConstants;
-import com.sahil.SplitwiseApp.model.Users;
-import com.sahil.SplitwiseApp.service.UsersService;
+import com.sahil.SplitwiseApp.service.users.IUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
 public class UsersController {
 
     @Autowired
-    private UsersService service;
+    private IUsersService service;
 
     @PostMapping
     public UsersResponseDTO addUser(@RequestBody UsersRequestDTO usersRequestDTO){

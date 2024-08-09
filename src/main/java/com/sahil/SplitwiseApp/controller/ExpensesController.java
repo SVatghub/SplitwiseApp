@@ -2,7 +2,7 @@ package com.sahil.SplitwiseApp.controller;
 
 import com.sahil.SplitwiseApp.constants.ApiConstants;
 import com.sahil.SplitwiseApp.model.Expenses;
-import com.sahil.SplitwiseApp.service.ExpensesService;
+import com.sahil.SplitwiseApp.service.expenses.IExpensesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class ExpensesController {
 
     @Autowired
-    private ExpensesService service;
+    private IExpensesService service;
 
     @PostMapping
     public Expenses addExpenseAndDebtUsers(@PathVariable("user-Id") int userId, @RequestBody Expenses expense){

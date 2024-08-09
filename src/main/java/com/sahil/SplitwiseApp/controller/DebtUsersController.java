@@ -3,7 +3,7 @@ package com.sahil.SplitwiseApp.controller;
 import com.sahil.SplitwiseApp.DTO.DebtUsersDTO;
 import com.sahil.SplitwiseApp.constants.ApiConstants;
 import com.sahil.SplitwiseApp.model.DebtUsers;
-import com.sahil.SplitwiseApp.service.DebtUsersService;
+import com.sahil.SplitwiseApp.service.debtUsers.IDebtUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 public class DebtUsersController {
 
     @Autowired
-    private DebtUsersService service;
+    private IDebtUsersService service;
 
     @PostMapping("/users/debt/{user-Id}")
     public void addDebtUser(DebtUsers debtUser){
