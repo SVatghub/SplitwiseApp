@@ -77,8 +77,13 @@ public class SettlementService implements ISettlementService{
 
     public List<PaymentDTO> allSettlementsToPay(int userId) {
         List<DebtUsersDTO> allDebts = debtUsersService.getDebtsByUserId(userId);
-        Map<Integer, BigDecimal> paymentMap = new HashMap<>();
+        Map<Integer, BigDecimal> paymentMap = calculatePayments(userId, allDebts);
+        adjustPaymentsForReverseDebts(userId, paymentMap);
+        return buildPaymentDTOList(paymentMap);
+    }
 
+    private Map<Integer, BigDecimal> calculatePayments(int userId, List<DebtUsersDTO> allDebts) {
+        Map<Integer, BigDecimal> paymentMap = new HashMap<>();
         for (DebtUsersDTO debt : allDebts) {
             if (!debt.isSettled()) {
                 int expenseId = debt.getExpenseId();
@@ -89,23 +94,31 @@ public class SettlementService implements ISettlementService{
                     if (expenseMakerId != userId) {
                         BigDecimal amount = debt.getDebtAmount();
                         paymentMap.put(expenseMakerId, paymentMap.getOrDefault(expenseMakerId, BigDecimal.ZERO).add(amount));
-
-                        List<DebtUsersDTO> makerDebts = debtUsersService.getDebtsByUserId(expenseMakerId);
-                        for (DebtUsersDTO makerDebt : makerDebts) {
-                            if (!makerDebt.isSettled()) {
-                                int makerDebtExpenseId = makerDebt.getExpenseId();
-                                Optional<Expenses> makerDebtExpense = expensesService.getExpenseByExpenseId(makerDebtExpenseId);
-                                if(makerDebtExpense.isPresent() && makerDebtExpense.get().getUserId() == userId) {
-                                    BigDecimal makerAmount = makerDebt.getDebtAmount();
-                                    paymentMap.put(expenseMakerId, paymentMap.get(expenseMakerId).subtract(makerAmount));
-                                }
-                            }
-                        }
                     }
                 }
             }
         }
+        return paymentMap;
+    }
 
+    private void adjustPaymentsForReverseDebts(int userId, Map<Integer, BigDecimal> paymentMap) {
+        for (Map.Entry<Integer, BigDecimal> entry : paymentMap.entrySet()) {
+            int expenseMakerId = entry.getKey();
+            List<DebtUsersDTO> makerDebts = debtUsersService.getDebtsByUserId(expenseMakerId);
+            for (DebtUsersDTO makerDebt : makerDebts) {
+                if (!makerDebt.isSettled()) {
+                    int makerDebtExpenseId = makerDebt.getExpenseId();
+                    Optional<Expenses> makerDebtExpense = expensesService.getExpenseByExpenseId(makerDebtExpenseId);
+                    if (makerDebtExpense.isPresent() && makerDebtExpense.get().getUserId() == userId) {
+                        BigDecimal makerAmount = makerDebt.getDebtAmount();
+                        paymentMap.put(expenseMakerId, paymentMap.get(expenseMakerId).subtract(makerAmount));
+                    }
+                }
+            }
+        }
+    }
+
+    private List<PaymentDTO> buildPaymentDTOList(Map<Integer, BigDecimal> paymentMap) {
         return paymentMap.entrySet().stream()
                 .filter(entry -> entry.getValue().compareTo(BigDecimal.ZERO) > 0)
                 .map(entry -> {
