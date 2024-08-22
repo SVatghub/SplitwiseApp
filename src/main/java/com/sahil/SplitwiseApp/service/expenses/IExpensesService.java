@@ -10,8 +10,7 @@ public interface IExpensesService {
     Expenses addExpenseAndDebtUsers(int userId,Expenses expense);
     Expenses updateExpense(Expenses expenses);
     Expenses updateExpenseById(int expenseId,int userId,Expenses expense);
-    Optional<Expenses> getExpenseByExpenseId(int id);
+    Optional<Expenses> getExpenseByExpenseId(int userId,int expenseId);
     List<Optional<Expenses>> getExpenseByUserId(int id);
-    void updateExpenseById(int expenseId, String title, BigDecimal amount);
-    void deleteExpenseById(int expenseId);
+    void deleteExpenseById(int userId,int expenseId);
 }

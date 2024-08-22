@@ -26,8 +26,8 @@ public class ExpensesController {
     }
 
     @GetMapping("/{expense-Id}")
-    public Optional<Expenses> getExpenseByExpenseId(@PathVariable("expense-Id") int expenseId){
-        return service.getExpenseByExpenseId(expenseId);
+    public Optional<Expenses> getExpenseByExpenseId(@PathVariable("expense-Id") int expenseId,@PathVariable("user-Id") int userId){
+        return service.getExpenseByExpenseId(userId,expenseId);
     }
 
     @GetMapping
@@ -36,7 +36,7 @@ public class ExpensesController {
     }
 
     @DeleteMapping("/{expense-Id}")
-    public void deleteExpenseByExpenseId(@PathVariable("expense-Id") int expenseId){
-        service.deleteExpenseById(expenseId);
+    public void deleteExpenseByExpenseId(@PathVariable("expense-Id") int expenseId,@PathVariable("user-Id") int userId){
+        service.deleteExpenseById(userId,expenseId);
     }
 }
