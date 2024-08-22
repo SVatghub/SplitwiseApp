@@ -1,6 +1,6 @@
 package com.sahil.SplitwiseApp.mapper;
 
-import com.sahil.SplitwiseApp.DTO.DebtUsersDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.DebtUsersDTO;
 import com.sahil.SplitwiseApp.model.DebtUsers;
 import org.springframework.stereotype.Component;
 

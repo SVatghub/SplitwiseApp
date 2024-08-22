@@ -1,6 +1,6 @@
 package com.sahil.SplitwiseApp.controller;
 
-import com.sahil.SplitwiseApp.DTO.DebtUsersDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.DebtUsersDTO;
 import com.sahil.SplitwiseApp.constants.ApiConstants;
 import com.sahil.SplitwiseApp.model.DebtUsers;
 import com.sahil.SplitwiseApp.service.debtUsers.IDebtUsersService;

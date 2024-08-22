@@ -1,7 +1,7 @@
 package com.sahil.SplitwiseApp.service.users;
 
-import com.sahil.SplitwiseApp.DTO.UsersRequestDTO;
-import com.sahil.SplitwiseApp.DTO.UsersResponseDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.UsersRequestDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.UsersResponseDTO;
 import java.util.List;
 
 public interface IUsersService {

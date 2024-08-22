@@ -1,4 +1,4 @@
-package com.sahil.SplitwiseApp.DTO;
+package com.sahil.SplitwiseApp.DTO.nonExceptionDTOs;
 
 import lombok.Builder;
 import lombok.Getter;
