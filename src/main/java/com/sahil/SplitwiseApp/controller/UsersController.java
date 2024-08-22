@@ -1,7 +1,7 @@
 package com.sahil.SplitwiseApp.controller;
 
-import com.sahil.SplitwiseApp.DTO.UsersRequestDTO;
-import com.sahil.SplitwiseApp.DTO.UsersResponseDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.UsersRequestDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.UsersResponseDTO;
 import com.sahil.SplitwiseApp.constants.ApiConstants;
 import com.sahil.SplitwiseApp.service.users.IUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
