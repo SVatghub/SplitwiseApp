@@ -1,7 +1,7 @@
 package com.sahil.SplitwiseApp.service.settlements;
 
-import com.sahil.SplitwiseApp.DTO.PaymentDTO;
-import com.sahil.SplitwiseApp.DTO.SettlementDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.PaymentDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.SettlementDTO;
 import java.util.*;
 
 public interface ISettlementService {

@@ -1,7 +1,7 @@
 package com.sahil.SplitwiseApp.controller;
 
-import com.sahil.SplitwiseApp.DTO.PaymentDTO;
-import com.sahil.SplitwiseApp.DTO.SettlementDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.PaymentDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.SettlementDTO;
 import com.sahil.SplitwiseApp.constants.ApiConstants;
 import com.sahil.SplitwiseApp.service.settlements.ISettlementService;
 import org.springframework.beans.factory.annotation.Autowired;

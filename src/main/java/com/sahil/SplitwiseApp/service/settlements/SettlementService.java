@@ -1,13 +1,14 @@
 package com.sahil.SplitwiseApp.service.settlements;
 
-import com.sahil.SplitwiseApp.DTO.DebtUsersDTO;
-import com.sahil.SplitwiseApp.DTO.ExpensesDTO;
-import com.sahil.SplitwiseApp.DTO.PaymentDTO;
-import com.sahil.SplitwiseApp.DTO.SettlementDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.DebtUsersDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.ExpensesDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.PaymentDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.SettlementDTO;
 import com.sahil.SplitwiseApp.model.Expenses;
 import com.sahil.SplitwiseApp.service.debtUsers.IDebtUsersService;
 import com.sahil.SplitwiseApp.service.expenses.IExpensesService;
 import com.sahil.SplitwiseApp.service.users.IUsersService;
+import com.sahil.SplitwiseApp.validation.UsersValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -26,7 +27,13 @@ public class SettlementService implements ISettlementService{
     @Autowired
     private IUsersService usersService;
 
+    @Autowired
+    private UsersValidation usersValidation;
+
     public SettlementDTO debtUserToLenderHistory(int debtUserId, int lenderId) {
+        usersValidation.existsById(debtUserId);
+        usersValidation.existsById(lenderId);
+
         List<Optional<Expenses>> expensesByLender = expensesService.getExpenseByUserId(lenderId);
 
         SettlementDTO settlementDTO = new SettlementDTO();
@@ -56,17 +63,20 @@ public class SettlementService implements ISettlementService{
     }
 
     public void settleDebtsBetweenUsers(int debtorId, int lenderId) {
+        usersValidation.existsById(debtorId);
+        usersValidation.existsById(lenderId);
+
         settleDebtsForUser(debtorId, lenderId);
         settleDebtsForUser(lenderId, debtorId);
     }
 
-    public void settleDebtsForUser(int userId, int otherUserId) {
-        List<Optional<Expenses>> expensesByUser = expensesService.getExpenseByUserId(userId);
+    public void settleDebtsForUser(int lenderId, int debtorId) {
+        List<Optional<Expenses>> expensesByUser = expensesService.getExpenseByUserId(lenderId);
 
         for (Optional<Expenses> optionalExpense : expensesByUser) {
             optionalExpense.ifPresent(expense -> {
                 expense.getDebtUsersList().stream()
-                        .filter(debtUser -> debtUser.getUserId() == otherUserId && !debtUser.isSettled())
+                        .filter(debtUser -> debtUser.getUserId() == debtorId && !debtUser.isSettled())
                         .forEach(debtUser -> {
                             debtUser.setSettled(true);
                             debtUsersService.updateDebtUser(debtUser);
@@ -76,6 +86,8 @@ public class SettlementService implements ISettlementService{
     }
 
     public List<PaymentDTO> allSettlementsToPay(int userId) {
+        usersValidation.existsById(userId);
+
         List<DebtUsersDTO> allDebts = debtUsersService.getDebtsByUserId(userId);
         Map<Integer, BigDecimal> paymentMap = calculatePayments(userId, allDebts);
         adjustPaymentsForReverseDebts(userId, paymentMap);
@@ -87,7 +99,7 @@ public class SettlementService implements ISettlementService{
         for (DebtUsersDTO debt : allDebts) {
             if (!debt.isSettled()) {
                 int expenseId = debt.getExpenseId();
-                Optional<Expenses> expenseOpt = expensesService.getExpenseByExpenseId(expenseId);
+                Optional<Expenses> expenseOpt = expensesService.getExpenseByExpenseId(userId,expenseId);
                 if (expenseOpt.isPresent()) {
                     Expenses expense = expenseOpt.get();
                     int expenseMakerId = expense.getUserId();
@@ -108,7 +120,7 @@ public class SettlementService implements ISettlementService{
             for (DebtUsersDTO makerDebt : makerDebts) {
                 if (!makerDebt.isSettled()) {
                     int makerDebtExpenseId = makerDebt.getExpenseId();
-                    Optional<Expenses> makerDebtExpense = expensesService.getExpenseByExpenseId(makerDebtExpenseId);
+                    Optional<Expenses> makerDebtExpense = expensesService.getExpenseByExpenseId(expenseMakerId,makerDebtExpenseId);
                     if (makerDebtExpense.isPresent() && makerDebtExpense.get().getUserId() == userId) {
                         BigDecimal makerAmount = makerDebt.getDebtAmount();
                         paymentMap.put(expenseMakerId, paymentMap.get(expenseMakerId).subtract(makerAmount));
