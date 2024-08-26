@@ -1,0 +1,30 @@
+version : "3.7"
+
+services:
+     app:
+        build : .
+        ports:
+          - "8080:8080"
+        networks:
+          - splitwise-network
+
+     mysql:
+       image: mysql:latest
+       environment:
+         MYSQL_DATABASE: splitwise-db
+         MYSQL_USER: user
+         MYSQL_PASSWORD: password
+         MYSQL_ROOT_PASSWORD: root
+       ports:
+         - "3307:3306"
+       networks:
+         - splitwise-network
+       volumes:
+         - mysql-splitwise-data:/var/lib/mysql
+
+networks:
+  splitwise-network:
+    driver: bridge
+
+volumes:
+  mysql-splitwise-data:
