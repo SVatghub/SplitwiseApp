@@ -1,5 +1,6 @@
 package com.sahil.SplitwiseApp.controller;
 
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.ExpenseSettlementStatusDTO;
 import com.sahil.SplitwiseApp.constants.ApiConstants;
 import com.sahil.SplitwiseApp.model.Expenses;
 import com.sahil.SplitwiseApp.service.expenses.IExpensesService;
@@ -33,6 +34,11 @@ public class ExpensesController {
     @GetMapping
     public List<Optional<Expenses>> getExpenseByUserId(@PathVariable("user-Id") int userId){
         return service.getExpenseByUserId(userId);
+    }
+
+    @GetMapping("/{expense-Id}/status")
+    public ExpenseSettlementStatusDTO getExpenseSettlementStatus(@PathVariable("expense-Id") int expenseId){
+        return service.getExpenseSettlementsStatus(expenseId);
     }
 
     @DeleteMapping("/{expense-Id}")

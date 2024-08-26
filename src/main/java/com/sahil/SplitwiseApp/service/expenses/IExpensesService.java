@@ -1,7 +1,7 @@
 package com.sahil.SplitwiseApp.service.expenses;
 
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.ExpenseSettlementStatusDTO;
 import com.sahil.SplitwiseApp.model.Expenses;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,4 +13,5 @@ public interface IExpensesService {
     Optional<Expenses> getExpenseByExpenseId(int userId,int expenseId);
     List<Optional<Expenses>> getExpenseByUserId(int id);
     void deleteExpenseById(int userId,int expenseId);
+    ExpenseSettlementStatusDTO getExpenseSettlementsStatus(int expenseId);
 }

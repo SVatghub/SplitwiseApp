@@ -1,9 +1,14 @@
 package com.sahil.SplitwiseApp.service.expenses;
 
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.DebtUsersDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.ExpenseSettlementStatusDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.UserNotSettledDTO;
+import com.sahil.SplitwiseApp.DTO.nonExceptionDTOs.UserSettledDTO;
 import com.sahil.SplitwiseApp.model.DebtUsers;
 import com.sahil.SplitwiseApp.model.Expenses;
 import com.sahil.SplitwiseApp.repo.ExpensesRepo;
 import com.sahil.SplitwiseApp.service.debtUsers.IDebtUsersService;
+import com.sahil.SplitwiseApp.service.users.UsersService;
 import com.sahil.SplitwiseApp.validation.DebtUsersValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +26,9 @@ public class ExpensesService implements IExpensesService{
 
     @Autowired
     private DebtUsersValidation debtUsersValidation;
+
+    @Autowired
+    private UsersService usersService;
 
     public Expenses addExpense(Expenses expense){
         return repo.save(expense);
@@ -86,5 +94,45 @@ public class ExpensesService implements IExpensesService{
         Optional<Expenses> expense = getExpenseByExpenseId(userId,expenseId);
         debtUsersValidation.isEmptyExpense(expense);
         repo.deleteById(expenseId);
+    }
+
+    public ExpenseSettlementStatusDTO getExpenseSettlementsStatus(int expenseId){
+        return ExpenseSettlementStatusDTO.builder()
+                .userSettledDTOList(getSettledUsersByExpenseId(expenseId))
+                .userNotSettledDTOList(getNotSettledUsersByExpenseId(expenseId))
+                .build();
+    }
+
+    private List<UserSettledDTO> getSettledUsersByExpenseId(int expenseId) {
+        List<DebtUsersDTO> debtUsers = debtUsersService.getDebtUsersByExpenseId(expenseId);
+        List<UserSettledDTO> userSettledDTOs = new java.util.ArrayList<>(List.of());
+        for(DebtUsersDTO debtUsersDTO : debtUsers){
+            if(debtUsersDTO.isSettled()){
+                userSettledDTOs.add( UserSettledDTO.builder()
+                        .settledAt(debtUsersDTO.getUpdatedAt())
+                        .expenseId(expenseId)
+                        .userId(debtUsersDTO.getUserId())
+                        .settlementAmount(debtUsersDTO.getDebtAmount())
+                        .userName(usersService.getUserById(debtUsersDTO.getUserId()).getName())
+                        .build());
+            }
+        }
+        return userSettledDTOs;
+    }
+
+    private List<UserNotSettledDTO> getNotSettledUsersByExpenseId(int expenseId) {
+        List<DebtUsersDTO> debtUsers = debtUsersService.getDebtUsersByExpenseId(expenseId);
+        List<UserNotSettledDTO> userNotSettledDTOS = new java.util.ArrayList<>(List.of());
+        for(DebtUsersDTO debtUsersDTO : debtUsers){
+            if(!debtUsersDTO.isSettled()){
+                userNotSettledDTOS.add(UserNotSettledDTO.builder()
+                        .expenseId(expenseId)
+                        .userId(debtUsersDTO.getUserId())
+                        .settlementAmount(debtUsersDTO.getDebtAmount())
+                        .userName(usersService.getUserById(debtUsersDTO.getUserId()).getName())
+                        .build());
+            }
+        }
+        return userNotSettledDTOS;
     }
 }
